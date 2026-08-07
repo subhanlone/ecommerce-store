@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -11,6 +11,13 @@ export default function AddToCartButton({ product }) {
   const toggleWishlist = useWishlistStore((s) => s.toggleItem);
   const isWishlisted = useWishlistStore((s) => s.isWishlisted(product._id));
   const [qty, setQty] = useState(1);
+
+  // The wishlist store rehydrates from localStorage after mount, so it's
+  // always empty during SSR. Ignoring it until mounted keeps the first
+  // client render matching the server and avoids a hydration mismatch.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const wishlisted = mounted && isWishlisted;
 
   return (
     <div className="flex items-center gap-3">
@@ -36,11 +43,11 @@ export default function AddToCartButton({ product }) {
         type="button"
         onClick={() => {
           toggleWishlist(product);
-          toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
+          toast.success(wishlisted ? "Removed from wishlist" : "Added to wishlist");
         }}
         className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
       >
-        {isWishlisted ? "♥ Wishlisted" : "♡ Wishlist"}
+        {wishlisted ? "♥ Wishlisted" : "♡ Wishlist"}
       </button>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -38,7 +38,14 @@ export default function Navbar() {
   const { status } = useSession();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
-  const cartCount = useCartStore((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
+  const rawCartCount = useCartStore((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
+
+  // Cart is rehydrated from localStorage after mount, so it's always empty
+  // during SSR. Ignoring it until mounted keeps the first client render
+  // matching the server and avoids a hydration mismatch on the badge.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const cartCount = mounted ? rawCartCount : 0;
 
   const search = (e) => {
     e.preventDefault();
@@ -47,10 +54,15 @@ export default function Navbar() {
     router.push(`/products?q=${encodeURIComponent(query || "")}`);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    // Sign out first so the session is invalidated server-side before we
+    // clear local state — clearing first races CartSync's sync-to-server
+    // effect (still "authenticated" for a tick) and can PUT an empty cart,
+    // wiping the account's saved cart in the DB.
+    await signOut({ redirect: false });
     useCartStore.getState().clear();
     useWishlistStore.setState({ items: [] });
-    signOut({ callbackUrl: "/" });
+    router.push("/");
   };
 
   return (

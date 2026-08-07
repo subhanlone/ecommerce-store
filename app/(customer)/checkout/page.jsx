@@ -16,6 +16,7 @@ export default function CheckoutPage() {
   const clear = useCartStore((s) => s.clear);
   const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
   const [submitting, setSubmitting] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const {
     register,
@@ -38,12 +39,13 @@ export default function CheckoutPage() {
       return;
     }
 
+    setOrderPlaced(true);
     clear();
     toast.success("Order placed");
     router.push(`/orders/${result.order._id}`);
   };
 
-  if (items.length === 0) {
+  if (items.length === 0 && !orderPlaced) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-16 text-center text-neutral-500">
         Your cart is empty.
