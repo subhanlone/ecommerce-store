@@ -1,36 +1,61 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ORDER_STATUSES } from "@/lib/constants";
+import { STATUS_META } from "@/components/ui/StatusBadge";
 
 export default function OrderStatusSelect({ orderId, currentStatus }) {
   const router = useRouter();
+  const [status, setStatus] = useState(currentStatus);
+  const [saving, setSaving] = useState(false);
 
   const handleChange = async (e) => {
-    const res = await fetch(`/api/orders/${orderId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: e.target.value }),
-    });
-    if (!res.ok) {
+    const next = e.target.value;
+    const previous = status;
+
+    // Track the value in state rather than leaving it uncontrolled, so the
+    // control can carry the matching status colour and can be put back if the
+    // request fails instead of showing a status the server never accepted.
+    setStatus(next);
+    setSaving(true);
+
+    try {
+      const res = await fetch(`/api/orders/${orderId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: next }),
+      });
+      if (!res.ok) {
+        setStatus(previous);
+        toast.error("Failed to update status");
+        return;
+      }
+      toast.success(`Order marked ${next}`);
+      router.refresh();
+    } catch {
+      setStatus(previous);
       toast.error("Failed to update status");
-      return;
+    } finally {
+      setSaving(false);
     }
-    toast.success("Status updated");
-    router.refresh();
   };
+
+  const meta = STATUS_META[status];
 
   return (
     <select
       aria-label="Update order status"
-      defaultValue={currentStatus}
+      value={status}
+      disabled={saving}
       onChange={handleChange}
-      className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm"
+      className="h-9 cursor-pointer rounded-full border-0 px-3 text-sm font-medium transition-opacity disabled:opacity-50"
+      style={{ backgroundColor: `var(${meta.bg})`, color: `var(${meta.fg})` }}
     >
-      {ORDER_STATUSES.map((status) => (
-        <option key={status} value={status}>
-          {status}
+      {ORDER_STATUSES.map((s) => (
+        <option key={s} value={s}>
+          {s}
         </option>
       ))}
     </select>

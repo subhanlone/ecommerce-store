@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -57,8 +57,8 @@ function LoginForm() {
         error={errors.password?.message}
         {...register("password")}
       />
-      <Button type="submit" disabled={submitting}>
-        {submitting ? "Logging in..." : "Log in"}
+      <Button type="submit" loading={submitting}>
+        Log in
       </Button>
     </form>
   );
@@ -68,10 +68,10 @@ export default function LoginPage() {
   return (
     <div className="mx-auto flex min-h-[70vh] w-full max-w-sm flex-col justify-center gap-6 px-4 py-16">
       <h1 className="text-2xl font-semibold">Log in</h1>
-      <Suspense fallback={<p className="text-sm text-neutral-500">Loading...</p>}>
+      <Suspense fallback={<p className="text-sm text-text-subtle">Loading...</p>}>
         <LoginForm />
       </Suspense>
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-text-muted">
         Don&apos;t have an account?{" "}
         <Link href="/register" className="text-accent font-medium">
           Sign up

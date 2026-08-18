@@ -30,10 +30,10 @@ export default function ImageUpload({ images, onChange }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-sm font-medium text-neutral-700">Product Images</label>
+      <label className="text-sm font-medium text-text-muted">Product Images</label>
       <div className="flex flex-wrap gap-3">
         {images.map((url, i) => (
-          <div key={url} className="relative h-20 w-20 overflow-hidden rounded-md border border-neutral-200">
+          <div key={url} className="relative h-20 w-20 overflow-hidden rounded-lg border border-line">
             <Image src={url} alt="" fill className="object-cover" sizes="80px" />
             <button
               type="button"
@@ -44,7 +44,7 @@ export default function ImageUpload({ images, onChange }) {
             </button>
           </div>
         ))}
-        <label className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-md border border-dashed border-neutral-300 text-xs text-neutral-500 hover:border-accent">
+        <label className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-lg border border-dashed border-line-strong text-xs text-text-subtle hover:border-accent">
           {uploading ? "..." : "+ Add"}
           <input type="file" accept="image/*" className="hidden" onChange={handleFile} disabled={uploading} />
         </label>

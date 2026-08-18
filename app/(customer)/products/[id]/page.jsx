@@ -35,7 +35,7 @@ export default async function ProductDetailPage({ params }) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="grid gap-8 md:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
+        <div className="relative aspect-square overflow-hidden rounded-lg bg-surface-muted">
           {serialized.images?.[0] ? (
             <Image
               src={serialized.images[0]}
@@ -45,7 +45,7 @@ export default async function ProductDetailPage({ params }) {
               sizes="(min-width: 768px) 50vw, 100vw"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-neutral-400">
+            <div className="flex h-full items-center justify-center text-sm text-text-subtle">
               No image
             </div>
           )}
@@ -53,30 +53,45 @@ export default async function ProductDetailPage({ params }) {
 
         <div className="flex flex-col gap-4">
           {serialized.category?.name && (
-            <p className="text-sm text-neutral-500">{serialized.category.name}</p>
+            /* Same small-caps treatment the product cards use, so the category
+               reads as a label in both places rather than as body copy here. */
+            <Link
+              href={`/products?category=${serialized.category._id}`}
+              className="label-caps text-[10px] text-text-subtle transition-colors hover:text-accent"
+            >
+              {serialized.category.name}
+            </Link>
           )}
-          <h1 className="text-2xl font-semibold">{serialized.name}</h1>
+          <h1 className="text-3xl font-semibold text-text">{serialized.name}</h1>
           <StarRating rating={serialized.ratingAvg} count={serialized.ratingCount} size="lg" />
-          <p className="text-2xl font-semibold text-accent">
+          <p className="tabular text-2xl font-semibold text-accent">
             ${Number(serialized.price).toFixed(2)}
           </p>
-          <p className="text-sm leading-relaxed text-neutral-600">{serialized.description}</p>
+          <p className="text-sm leading-relaxed text-text-muted">{serialized.description}</p>
 
           {serialized.variants?.length > 0 && (
             <div className="flex flex-wrap gap-2 text-sm">
               {serialized.variants.map((v, i) => (
-                <span key={i} className="rounded-md border border-neutral-300 px-2 py-1">
+                <span key={i} className="rounded-full border border-line-strong px-3 py-1 text-text-muted">
                   {v.name}: {v.value}
                 </span>
               ))}
             </div>
           )}
 
-          <p className="text-sm">
-            {serialized.stock > 0 ? (
-              <span className="text-green-600">In stock ({serialized.stock} available)</span>
+          {/*
+            Stock reads as plain text rather than accent green. The accent is
+            already carrying the price directly above; two accent-coloured lines
+            stacked together compete, and neither wins. Low stock is the only
+            case that genuinely needs to raise a flag.
+          */}
+          <p className="text-sm font-medium">
+            {serialized.stock === 0 ? (
+              <span className="text-danger">Out of stock</span>
+            ) : serialized.stock <= 5 ? (
+              <span className="text-danger">Only {serialized.stock} left in stock</span>
             ) : (
-              <span className="text-red-600">Out of stock</span>
+              <span className="text-text-muted">In stock ({serialized.stock} available)</span>
             )}
           </p>
 
@@ -90,14 +105,14 @@ export default async function ProductDetailPage({ params }) {
         </h2>
 
         {session ? (
-          <div className="mb-8 rounded-lg border border-neutral-200 p-4">
-            <p className="mb-3 text-sm font-medium text-neutral-700">
+          <div className="mb-8 rounded-lg border border-line p-4">
+            <p className="mb-3 text-sm font-medium text-text-muted">
               {existingReview ? "Update your review" : "Write a review"}
             </p>
             <ReviewForm productId={id} existingReview={existingReview} />
           </div>
         ) : (
-          <p className="mb-8 text-sm text-neutral-500">
+          <p className="mb-8 text-sm text-text-subtle">
             <Link href="/login" className="text-accent font-medium">
               Log in
             </Link>{" "}
@@ -106,19 +121,19 @@ export default async function ProductDetailPage({ params }) {
         )}
 
         {serializedReviews.length === 0 ? (
-          <p className="text-sm text-neutral-500">No reviews yet.</p>
+          <p className="text-sm text-text-subtle">No reviews yet.</p>
         ) : (
           <div className="flex flex-col gap-4">
             {serializedReviews.map((review) => (
-              <div key={review._id} className="border-b border-neutral-200 pb-4">
+              <div key={review._id} className="border-b border-line pb-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium">{review.user?.name || "Anonymous"}</p>
                   <StarRating rating={review.rating} />
                 </div>
                 {review.comment && (
-                  <p className="mt-1 text-sm text-neutral-600">{review.comment}</p>
+                  <p className="mt-1 text-sm text-text-muted">{review.comment}</p>
                 )}
-                <p className="mt-1 text-xs text-neutral-400">
+                <p className="mt-1 text-xs text-text-subtle">
                   {new Date(review.createdAt).toLocaleDateString()}
                 </p>
               </div>

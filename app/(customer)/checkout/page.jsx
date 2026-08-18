@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -47,7 +47,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0 && !orderPlaced) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-16 text-center text-neutral-500">
+      <div className="mx-auto max-w-3xl px-4 py-16 text-center text-text-subtle">
         Your cart is empty.
       </div>
     );
@@ -74,15 +74,15 @@ export default function CheckoutPage() {
             <Input label="Country" id="country" error={errors.country?.message} {...register("country")} />
           </div>
           <Input label="Phone" id="phone" error={errors.phone?.message} {...register("phone")} />
-          <Button type="submit" disabled={submitting}>
-            {submitting ? "Placing order..." : `Place Order (COD) — $${total.toFixed(2)}`}
+          <Button type="submit" loading={submitting}>
+            {`Place order (COD) — $${total.toFixed(2)}`}
           </Button>
         </form>
       </div>
 
       <div>
         <h1 className="mb-4 text-xl font-semibold">Order Summary</h1>
-        <div className="divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+        <div className="divide-y divide-line rounded-lg border border-line">
           {items.map((item) => (
             <div key={item.productId} className="flex items-center justify-between px-4 py-3 text-sm">
               <span>
@@ -96,7 +96,7 @@ export default function CheckoutPage() {
             <span>${total.toFixed(2)}</span>
           </div>
         </div>
-        <p className="mt-3 text-xs text-neutral-500">
+        <p className="mt-3 text-xs text-text-subtle">
           Payment method: Cash on Delivery. Online payment coming soon.
         </p>
       </div>

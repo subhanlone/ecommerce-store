@@ -18,12 +18,23 @@ export default function ProductFilters({ categories }) {
     router.push(`${pathname}?${params.toString()}`);
   };
 
+  /*
+    A filter that is set should look different from one that isn't, otherwise
+    you have to open the menu to find out why the grid is short.
+  */
+  const activeCategory = searchParams.get("category") || "";
+
+  const selectClass = (active) =>
+    `h-10 cursor-pointer rounded-lg border bg-surface px-3 text-sm transition-colors hover:border-text-subtle ${
+      active ? "border-accent text-accent" : "border-line-strong text-text"
+    }`;
+
   return (
     <div className="flex flex-wrap items-center gap-3">
       <select
         aria-label="Filter by category"
-        className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm"
-        value={searchParams.get("category") || ""}
+        className={selectClass(Boolean(activeCategory))}
+        value={activeCategory}
         onChange={(e) => updateParam("category", e.target.value)}
       >
         <option value="">All categories</option>
@@ -36,13 +47,13 @@ export default function ProductFilters({ categories }) {
 
       <select
         aria-label="Sort products"
-        className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm"
+        className={selectClass(false)}
         value={searchParams.get("sort") || "newest"}
         onChange={(e) => updateParam("sort", e.target.value)}
       >
         <option value="newest">Newest</option>
-        <option value="price_asc">Price: Low to High</option>
-        <option value="price_desc">Price: High to Low</option>
+        <option value="price_asc">Price: low to high</option>
+        <option value="price_desc">Price: high to low</option>
       </select>
     </div>
   );

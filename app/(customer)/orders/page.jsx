@@ -2,14 +2,8 @@ import Link from "next/link";
 import { connectDB } from "@/lib/db";
 import Order from "@/models/Order";
 import { auth } from "@/auth";
-
-const STATUS_STYLES = {
-  Pending: "bg-neutral-100 text-neutral-700",
-  Processing: "bg-blue-100 text-blue-700",
-  Shipped: "bg-amber-100 text-amber-700",
-  Delivered: "bg-green-100 text-green-700",
-  Cancelled: "bg-red-100 text-red-700",
-};
+import Button from "@/components/ui/Button";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 export default async function OrderHistoryPage() {
   const session = await auth();
@@ -18,32 +12,43 @@ export default async function OrderHistoryPage() {
   const orders = await Order.find({ user: session.user.id }).sort({ createdAt: -1 }).lean();
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-semibold">Your Orders</h1>
+    <div className="mx-auto max-w-3xl px-4 py-10">
+      <h1 className="mb-6 text-2xl font-semibold text-text">Your orders</h1>
 
       {orders.length === 0 ? (
-        <p className="text-neutral-500">You haven&apos;t placed any orders yet.</p>
+        /* An empty screen is somewhere to go next, not a dead end. */
+        <div className="rounded-xl border border-dashed border-line-strong bg-surface px-6 py-14 text-center">
+          <p className="font-medium text-text">No orders yet</p>
+          <p className="mx-auto mt-1 max-w-sm text-sm text-text-muted">
+            Once you place an order it will appear here, with its current status.
+          </p>
+          <Link href="/products" className="mt-5 inline-block">
+            <Button>Browse products</Button>
+          </Link>
+        </div>
       ) : (
         <div className="flex flex-col gap-3">
           {orders.map((order) => (
             <Link
               key={order._id}
               href={`/orders/${order._id}`}
-              className="flex items-center justify-between rounded-lg border border-neutral-200 bg-white p-4 hover:shadow-sm"
+              className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface p-4 transition-colors hover:border-line-strong"
             >
-              <div>
-                <p className="font-medium">Order #{order._id.toString().slice(-8)}</p>
-                <p className="text-sm text-neutral-500">
-                  {new Date(order.createdAt).toLocaleDateString()} &middot; {order.items.length} item(s)
+              <div className="min-w-0">
+                <p className="font-medium text-text">
+                  Order #{order._id.toString().slice(-8)}
+                </p>
+                <p className="mt-0.5 text-sm text-text-muted">
+                  {new Date(order.createdAt).toLocaleDateString()} &middot; {order.items.length}{" "}
+                  item{order.items.length === 1 ? "" : "s"}
                 </p>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="font-semibold">${order.totalAmount.toFixed(2)}</span>
-                <span
-                  className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[order.status]}`}
-                >
-                  {order.status}
+
+              <div className="flex shrink-0 items-center gap-4">
+                <span className="tabular font-semibold text-text">
+                  ${order.totalAmount.toFixed(2)}
                 </span>
+                <StatusBadge status={order.status} />
               </div>
             </Link>
           ))}

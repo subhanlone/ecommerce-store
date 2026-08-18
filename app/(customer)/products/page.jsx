@@ -44,16 +44,35 @@ export default async function ProductsPage({ searchParams }) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">
-          {q ? `Search results for "${q}"` : "All Products"}
-        </h1>
+        <div>
+          <h1 className="text-2xl font-semibold text-text">
+            {q ? `Search results for "${q}"` : "All products"}
+          </h1>
+          {/* Result count, so the filters visibly do something. */}
+          <p className="mt-1 text-sm text-text-muted">
+            {total} product{total === 1 ? "" : "s"}
+          </p>
+        </div>
         <Suspense>
           <ProductFilters categories={serializedCategories} />
         </Suspense>
       </div>
 
       {serializedProducts.length === 0 ? (
-        <p className="py-16 text-center text-neutral-500">No products found.</p>
+        <div className="rounded-xl border border-dashed border-line-strong bg-surface px-6 py-16 text-center">
+          <p className="font-medium text-text">No products found</p>
+          <p className="mx-auto mt-1 max-w-sm text-sm text-text-muted">
+            {q
+              ? `Nothing matched "${q}". Try a different search, or clear the filters.`
+              : "Nothing matches these filters yet. Try a different category."}
+          </p>
+          <Link
+            href="/products"
+            className="mt-5 inline-block text-sm font-medium text-accent hover:underline"
+          >
+            Clear filters
+          </Link>
+        </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {serializedProducts.map((product) => (
@@ -75,8 +94,12 @@ export default async function ProductsPage({ searchParams }) {
               <Link
                 key={p}
                 href={`/products?${searchParamsCopy.toString()}`}
-                className={`rounded-md px-3 py-1.5 ${
-                  p === page ? "bg-accent text-accent-foreground" : "border border-neutral-300"
+                aria-current={p === page ? "page" : undefined}
+                aria-label={`Page ${p}`}
+                className={`flex h-10 min-w-10 items-center justify-center rounded-lg px-3 font-medium transition-colors ${
+                  p === page
+                    ? "bg-accent text-accent-foreground"
+                    : "border border-line-strong text-text-muted hover:border-accent hover:text-accent"
                 }`}
               >
                 {p}

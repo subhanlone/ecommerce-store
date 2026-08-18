@@ -11,7 +11,7 @@ export default async function AddProductPage() {
     <div>
       <h1 className="mb-6 text-2xl font-semibold">Add Product</h1>
       {serialized.length === 0 ? (
-        <p className="text-sm text-neutral-500">
+        <p className="text-sm text-text-subtle">
           Create a category first before adding products.
         </p>
       ) : (

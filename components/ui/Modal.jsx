@@ -9,7 +9,7 @@ export default function Modal({ open, onClose, title, children }) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg"
+        className="w-full max-w-md rounded-lg bg-surface p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
@@ -17,7 +17,7 @@ export default function Modal({ open, onClose, title, children }) {
           <button
             type="button"
             onClick={onClose}
-            className="text-neutral-400 hover:text-neutral-600"
+            className="text-text-subtle hover:text-text-muted"
             aria-label="Close"
           >
             &times;

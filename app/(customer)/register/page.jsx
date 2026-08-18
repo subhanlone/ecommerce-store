@@ -79,11 +79,11 @@ export default function RegisterPage() {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button type="submit" disabled={submitting}>
-          {submitting ? "Creating account..." : "Sign up"}
+        <Button type="submit" loading={submitting}>
+          Sign up
         </Button>
       </form>
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-text-muted">
         Already have an account?{" "}
         <Link href="/login" className="text-accent font-medium">
           Log in

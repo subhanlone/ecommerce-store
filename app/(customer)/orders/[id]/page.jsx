@@ -2,14 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import { connectDB } from "@/lib/db";
 import Order from "@/models/Order";
 import { auth } from "@/auth";
-
-const STATUS_STYLES = {
-  Pending: "bg-neutral-100 text-neutral-700",
-  Processing: "bg-blue-100 text-blue-700",
-  Shipped: "bg-amber-100 text-amber-700",
-  Delivered: "bg-green-100 text-green-700",
-  Cancelled: "bg-red-100 text-red-700",
-};
+import StatusBadge from "@/components/ui/StatusBadge";
+import OrderProgress from "@/components/ui/OrderProgress";
 
 export default async function OrderDetailPage({ params }) {
   const { id } = await params;
@@ -28,42 +22,46 @@ export default async function OrderDetailPage({ params }) {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="mx-auto max-w-2xl px-4 py-10">
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">Order #{order._id.toString().slice(-8)}</h1>
-          <p className="text-sm text-neutral-500">
+          <h1 className="text-2xl font-semibold text-text">
+            Order #{order._id.toString().slice(-8)}
+          </h1>
+          <p className="mt-0.5 text-sm text-text-muted">
             Placed on {new Date(order.createdAt).toLocaleDateString()}
           </p>
         </div>
-        <span
-          className={`rounded-full px-3 py-1 text-sm font-medium ${STATUS_STYLES[order.status]}`}
-        >
-          {order.status}
-        </span>
+        <StatusBadge status={order.status} size="md" />
       </div>
 
-      <div className="mb-6 rounded-lg border border-neutral-200">
+      <div className="mb-6 rounded-xl border border-line bg-surface p-5">
+        <OrderProgress status={order.status} />
+      </div>
+
+      <div className="mb-6 overflow-hidden rounded-xl border border-line bg-surface">
         {order.items.map((item, i) => (
           <div
             key={i}
-            className="flex items-center justify-between border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0"
+            className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 text-sm last:border-b-0"
           >
-            <span>
-              {item.name} &times; {item.qty}
+            <span className="min-w-0 text-text">
+              {item.name} <span className="text-text-subtle">&times; {item.qty}</span>
             </span>
-            <span className="font-medium">${(item.price * item.qty).toFixed(2)}</span>
+            <span className="tabular shrink-0 font-medium text-text">
+              ${(item.price * item.qty).toFixed(2)}
+            </span>
           </div>
         ))}
-        <div className="flex items-center justify-between px-4 py-3 font-semibold">
+        <div className="flex items-center justify-between border-t-2 border-line bg-surface-muted px-4 py-3 font-semibold text-text">
           <span>Total</span>
-          <span>${order.totalAmount.toFixed(2)}</span>
+          <span className="tabular">${order.totalAmount.toFixed(2)}</span>
         </div>
       </div>
 
-      <div className="rounded-lg border border-neutral-200 p-4">
-        <h2 className="mb-2 text-sm font-semibold text-neutral-700">Shipping Address</h2>
-        <p className="text-sm text-neutral-600">
+      <div className="rounded-xl border border-line bg-surface p-5">
+        <h2 className="label-caps mb-2 text-[10px] text-text-subtle">Shipping address</h2>
+        <p className="text-sm leading-relaxed text-text-muted">
           {order.shippingAddress.line1}
           {order.shippingAddress.line2 ? `, ${order.shippingAddress.line2}` : ""}
           <br />
@@ -76,7 +74,7 @@ export default async function OrderDetailPage({ params }) {
         </p>
       </div>
 
-      <p className="mt-4 text-xs text-neutral-500">Payment method: {order.paymentMethod}</p>
+      <p className="mt-4 text-xs text-text-subtle">Payment method: {order.paymentMethod}</p>
     </div>
   );
 }

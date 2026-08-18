@@ -36,16 +36,16 @@ export default async function AdminOrdersPage({ searchParams }) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-semibold">Orders</h1>
+      <h1 className="mb-6 text-2xl font-semibold text-text">Orders</h1>
 
       <form className="mb-4 flex flex-wrap items-end gap-3 text-sm" method="get">
         <div className="flex flex-col gap-1">
-          <label htmlFor="status">Status</label>
+          <label htmlFor="status" className="text-xs font-medium text-text-muted">Status</label>
           <select
             id="status"
             name="status"
             defaultValue={status}
-            className="rounded-md border border-neutral-300 px-2 py-1.5"
+            className="h-10 rounded-lg border border-line-strong bg-surface px-3 text-sm text-text"
           >
             <option value="">All</option>
             {ORDER_STATUSES.map((s) => (
@@ -56,33 +56,36 @@ export default async function AdminOrdersPage({ searchParams }) {
           </select>
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="date">Date</label>
+          <label htmlFor="date" className="text-xs font-medium text-text-muted">Date</label>
           <input
             id="date"
             type="date"
             name="date"
             defaultValue={date}
-            className="rounded-md border border-neutral-300 px-2 py-1.5"
+            className="h-10 rounded-lg border border-line-strong bg-surface px-3 text-sm text-text"
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="q">Customer</label>
+          <label htmlFor="q" className="text-xs font-medium text-text-muted">Customer</label>
           <input
             id="q"
             type="text"
             name="q"
             defaultValue={params.q || ""}
             placeholder="Name or email"
-            className="rounded-md border border-neutral-300 px-2 py-1.5"
+            className="h-10 rounded-lg border border-line-strong bg-surface px-3 text-sm text-text"
           />
         </div>
-        <button type="submit" className="rounded-md bg-accent px-4 py-1.5 text-accent-foreground">
+        <button type="submit" className="h-10 rounded-lg bg-accent px-5 font-medium text-accent-foreground transition-colors hover:bg-accent-hover">
           Filter
         </button>
       </form>
 
       {serialized.length === 0 ? (
-        <p className="text-neutral-500">No orders found.</p>
+        <div className="rounded-xl border border-dashed border-line-strong bg-surface px-6 py-14 text-center">
+          <p className="font-medium text-text">No orders found</p>
+          <p className="mt-1 text-sm text-text-muted">No orders match these filters yet.</p>
+        </div>
       ) : (
         <OrderTable orders={serialized} />
       )}

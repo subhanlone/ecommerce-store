@@ -14,9 +14,9 @@ export default async function AdminCustomersPage() {
   return (
     <div>
       <h1 className="mb-6 text-2xl font-semibold">Customers</h1>
-      <div className="overflow-x-auto rounded-lg border border-neutral-200">
-        <table className="w-full min-w-[480px] border-collapse bg-white text-sm">
-          <thead className="bg-neutral-50 text-left text-neutral-600">
+      <div className="overflow-x-auto rounded-lg border border-line">
+        <table className="w-full min-w-[480px] border-collapse bg-surface text-sm">
+          <thead className="bg-surface-sunken text-left text-text-muted">
             <tr>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
@@ -26,7 +26,7 @@ export default async function AdminCustomersPage() {
           </thead>
           <tbody>
             {customers.map((customer) => (
-              <tr key={customer._id} className="border-t border-neutral-200">
+              <tr key={customer._id} className="border-t border-line">
                 <td className="px-4 py-2">{customer.name}</td>
                 <td className="px-4 py-2">{customer.email}</td>
                 <td className="px-4 py-2">{new Date(customer.createdAt).toLocaleDateString()}</td>
@@ -36,7 +36,7 @@ export default async function AdminCustomersPage() {
           </tbody>
         </table>
       </div>
-      {customers.length === 0 && <p className="mt-4 text-neutral-500">No customers yet.</p>}
+      {customers.length === 0 && <p className="mt-4 text-text-subtle">No customers yet.</p>}
     </div>
   );
 }

@@ -98,50 +98,57 @@ export default function CategoryManager({ categories }) {
           error={errors.name?.message}
           {...register("name")}
         />
-        <Button type="submit" disabled={submitting}>
-          {submitting ? "Adding..." : "Add"}
+        <Button type="submit" loading={submitting}>
+          Add
         </Button>
       </form>
 
-      <table className="w-full border-collapse overflow-hidden rounded-lg border border-neutral-200 bg-white text-sm">
-        <thead className="bg-neutral-50 text-left text-neutral-600">
-          <tr>
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Slug</th>
-            <th className="px-4 py-2"></th>
+      <table className="w-full border-collapse overflow-hidden rounded-xl border border-line bg-surface text-sm">
+        <thead className="bg-surface-muted text-left">
+          <tr className="label-caps text-[10px] text-text-subtle">
+            <th className="px-4 py-3 font-medium">Name</th>
+            <th className="px-4 py-3 font-medium">Slug</th>
+            <th className="px-4 py-3 font-medium">
+              <span className="sr-only">Actions</span>
+            </th>
           </tr>
         </thead>
         <tbody>
           {categories.map((category) => {
             const isEditing = editingId === category._id;
             return (
-              <tr key={category._id} className="border-t border-neutral-200">
-                <td className="px-4 py-2">
+              <tr key={category._id} className="border-t border-line">
+                <td className="px-4 py-3 font-medium text-text">
                   {isEditing ? (
                     <input
                       type="text"
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
-                      className="w-full rounded-md border border-neutral-300 px-2 py-1"
+                      aria-label={`Rename ${category.name}`}
+                      className="h-9 w-full rounded-lg border border-line-strong bg-surface px-2 text-text"
                       autoFocus
                     />
                   ) : (
                     category.name
                   )}
                 </td>
-                <td className="px-4 py-2 text-neutral-500">{category.slug}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-3 text-text-subtle">{category.slug}</td>
+                <td className="px-4 py-3">
                   {isEditing ? (
                     <div className="flex gap-3">
                       <button
                         type="button"
                         onClick={() => saveEdit(category._id)}
                         disabled={savingEdit}
-                        className="text-accent hover:underline disabled:opacity-50"
+                        className="font-medium text-accent hover:underline disabled:opacity-50"
                       >
-                        Save
+                        {savingEdit ? "Saving…" : "Save"}
                       </button>
-                      <button type="button" onClick={cancelEdit} className="text-neutral-500 hover:underline">
+                      <button
+                        type="button"
+                        onClick={cancelEdit}
+                        className="font-medium text-text-subtle hover:underline"
+                      >
                         Cancel
                       </button>
                     </div>
@@ -150,14 +157,14 @@ export default function CategoryManager({ categories }) {
                       <button
                         type="button"
                         onClick={() => startEdit(category)}
-                        className="text-accent hover:underline"
+                        className="font-medium text-accent hover:underline"
                       >
                         Edit
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDelete(category._id)}
-                        className="text-red-600 hover:underline"
+                        className="font-medium text-danger hover:underline"
                       >
                         Delete
                       </button>

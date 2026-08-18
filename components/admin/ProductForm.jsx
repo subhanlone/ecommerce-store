@@ -62,17 +62,17 @@ export default function ProductForm({ categories, initialData, productId }) {
       <Input label="Name" id="name" error={errors.name?.message} {...register("name")} />
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="description" className="text-sm font-medium text-neutral-700">
+        <label htmlFor="description" className="text-sm font-medium text-text-muted">
           Description
         </label>
         <textarea
           id="description"
           rows={4}
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm text-text placeholder:text-text-subtle"
           {...register("description")}
         />
         {errors.description && (
-          <p className="text-xs text-red-600">{errors.description.message}</p>
+          <p className="text-xs text-danger">{errors.description.message}</p>
         )}
       </div>
 
@@ -95,12 +95,12 @@ export default function ProductForm({ categories, initialData, productId }) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="category" className="text-sm font-medium text-neutral-700">
+        <label htmlFor="category" className="text-sm font-medium text-text-muted">
           Category
         </label>
         <select
           id="category"
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm text-text placeholder:text-text-subtle"
           {...register("category")}
         >
           {categories.map((c) => (
@@ -109,7 +109,7 @@ export default function ProductForm({ categories, initialData, productId }) {
             </option>
           ))}
         </select>
-        {errors.category && <p className="text-xs text-red-600">{errors.category.message}</p>}
+        {errors.category && <p className="text-xs text-danger">{errors.category.message}</p>}
       </div>
 
       <Controller
@@ -119,25 +119,31 @@ export default function ProductForm({ categories, initialData, productId }) {
       />
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-neutral-700">
+        <label className="text-sm font-medium text-text-muted">
           Variants (optional — e.g. Size: M, Color: Red)
         </label>
         {fields.map((field, index) => (
           <div key={field.id} className="flex items-center gap-2">
+            {/* The heading above is a plain <label> with no htmlFor, so it
+                names the group, not these fields. Placeholders disappear on
+                focus and are never an accessible name, so each field carries
+                its own. */}
             <input
               placeholder="Name (e.g. Size)"
-              className="w-1/3 rounded-md border border-neutral-300 px-3 py-1.5 text-sm"
+              aria-label={`Variant ${index + 1} name`}
+              className="h-10 w-1/3 rounded-lg border border-line-strong bg-surface px-3 text-sm text-text placeholder:text-text-subtle"
               {...register(`variants.${index}.name`)}
             />
             <input
               placeholder="Value (e.g. M)"
-              className="w-1/3 rounded-md border border-neutral-300 px-3 py-1.5 text-sm"
+              aria-label={`Variant ${index + 1} value`}
+              className="h-10 w-1/3 rounded-lg border border-line-strong bg-surface px-3 text-sm text-text placeholder:text-text-subtle"
               {...register(`variants.${index}.value`)}
             />
             <button
               type="button"
               onClick={() => remove(index)}
-              className="text-sm text-red-600 hover:underline"
+              className="text-sm text-danger hover:underline"
               aria-label={`Remove variant ${index + 1}`}
             >
               Remove
@@ -153,8 +159,8 @@ export default function ProductForm({ categories, initialData, productId }) {
         </button>
       </div>
 
-      <Button type="submit" disabled={submitting}>
-        {submitting ? "Saving..." : productId ? "Update Product" : "Create Product"}
+      <Button type="submit" loading={submitting}>
+        {productId ? "Update product" : "Create product"}
       </Button>
     </form>
   );

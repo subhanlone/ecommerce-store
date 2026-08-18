@@ -47,10 +47,10 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-sm flex-col justify-center gap-6 bg-neutral-50 px-4">
+    <div className="mx-auto flex min-h-screen w-full max-w-sm flex-col justify-center gap-6 bg-surface-sunken px-4">
       <div>
         <h1 className="text-2xl font-semibold">Admin Login</h1>
-        <p className="text-sm text-neutral-500">Restricted access — admins only</p>
+        <p className="text-sm text-text-subtle">Restricted access — admins only</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <Input
@@ -67,8 +67,8 @@ export default function AdminLoginPage() {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button type="submit" disabled={submitting}>
-          {submitting ? "Logging in..." : "Log in"}
+        <Button type="submit" loading={submitting}>
+          Log in
         </Button>
       </form>
     </div>

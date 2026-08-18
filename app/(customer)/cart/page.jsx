@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
@@ -12,7 +12,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-16 text-center">
-        <p className="text-neutral-500">Your cart is empty.</p>
+        <p className="text-text-subtle">Your cart is empty.</p>
         <Link href="/products" className="mt-4 inline-block">
           <Button>Browse products</Button>
         </Link>

@@ -15,7 +15,7 @@ export default function WishlistPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-16 text-center">
-        <p className="text-neutral-500">Your wishlist is empty.</p>
+        <p className="text-text-subtle">Your wishlist is empty.</p>
         <Link href="/products" className="mt-4 inline-block">
           <Button>Browse products</Button>
         </Link>
@@ -30,9 +30,9 @@ export default function WishlistPage() {
         {items.map((item) => (
           <div
             key={item.productId}
-            className="flex items-center gap-4 border-b border-neutral-200 py-4"
+            className="flex items-center gap-4 border-b border-line py-4"
           >
-            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-neutral-100">
+            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-surface-muted">
               {item.image ? (
                 <Image src={item.image} alt={item.name} fill className="object-cover" sizes="80px" />
               ) : null}
@@ -41,7 +41,7 @@ export default function WishlistPage() {
               <Link href={`/products/${item.productId}`} className="font-medium hover:text-accent">
                 {item.name}
               </Link>
-              <p className="text-sm text-neutral-500">${item.price.toFixed(2)}</p>
+              <p className="text-sm text-text-subtle">${item.price.toFixed(2)}</p>
             </div>
             <Button
               variant="secondary"
@@ -55,7 +55,7 @@ export default function WishlistPage() {
             <button
               type="button"
               onClick={() => removeItem(item.productId)}
-              className="text-sm text-red-600 hover:underline"
+              className="text-sm text-danger hover:underline"
             >
               Remove
             </button>
