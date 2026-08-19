@@ -4,6 +4,7 @@ import Product from "@/models/Product";
 import Category from "@/models/Category";
 import Button from "@/components/ui/Button";
 import ProductCard from "@/components/customer/ProductCard";
+import Reveal from "@/components/ui/Reveal";
 
 export const dynamic = "force-dynamic";
 
@@ -82,11 +83,11 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <Reveal className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {serialized.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
-          </div>
+          </Reveal>
         </section>
       )}
     </div>

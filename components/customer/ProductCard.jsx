@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
   return (
     <Link
       href={`/products/${product._id}`}
-      className="group flex flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all duration-200 hover:border-line-strong hover:shadow-[0_2px_12px_rgba(28,25,23,0.08)]"
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all duration-200 hover:border-line-strong hover:shadow-[0_2px_12px_rgba(28,25,23,0.08)]"
     >
       <div className="relative aspect-square overflow-hidden bg-surface-muted">
         {image ? (

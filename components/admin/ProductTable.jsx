@@ -1,15 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { TrashIcon, EditIcon } from "@/components/ui/icons";
 
 export default function ProductTable({ products }) {
   const router = useRouter();
+  // Holding the whole product, not just the id, so the dialog can name it.
+  const [pending, setPending] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this product?")) return;
-    const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
+  const handleDelete = async () => {
+    if (!pending) return;
+    setDeleting(true);
+    const res = await fetch(`/api/products/${pending._id}`, { method: "DELETE" });
+    setDeleting(false);
+    setPending(null);
+
     if (!res.ok) {
       toast.error("Failed to delete product");
       return;
@@ -19,7 +29,8 @@ export default function ProductTable({ products }) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-line">
+    <>
+      <div className="overflow-x-auto rounded-xl border border-line">
       <table className="w-full min-w-[640px] border-collapse bg-surface text-sm">
         <thead className="bg-surface-muted text-left">
           <tr className="label-caps text-[10px] text-text-subtle">
@@ -53,18 +64,20 @@ export default function ProductTable({ products }) {
                 )}
               </td>
               <td className="px-4 py-3">
-                <div className="flex gap-3">
+                <div className="flex gap-1">
                   <Link
                     href={`/admin/products/edit/${product._id}`}
-                    className="font-medium text-accent hover:underline"
+                    className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 font-medium text-accent transition-colors hover:bg-accent-subtle"
                   >
+                    <EditIcon className="h-4 w-4" />
                     Edit
                   </Link>
                   <button
                     type="button"
-                    onClick={() => handleDelete(product._id)}
-                    className="font-medium text-danger hover:underline"
+                    onClick={() => setPending(product)}
+                    className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 font-medium text-danger transition-colors hover:bg-danger-subtle"
                   >
+                    <TrashIcon className="h-4 w-4" />
                     Delete
                   </button>
                 </div>
@@ -73,6 +86,21 @@ export default function ProductTable({ products }) {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+
+      <ConfirmDialog
+        open={!!pending}
+        onOpenChange={(next) => !next && setPending(null)}
+        title="Delete product?"
+        description={
+          pending
+            ? `“${pending.name}” will be removed from the store. This cannot be undone.`
+            : ""
+        }
+        confirmLabel="Delete product"
+        onConfirm={handleDelete}
+        loading={deleting}
+      />
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { connectDB } from "@/lib/db";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
 import ProductCard from "@/components/customer/ProductCard";
+import Reveal from "@/components/ui/Reveal";
 import ProductFilters from "@/components/customer/ProductFilters";
 
 const PAGE_SIZE = 12;
@@ -74,11 +75,11 @@ export default async function ProductsPage({ searchParams }) {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <Reveal className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {serializedProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
-        </div>
+        </Reveal>
       )}
 
       {totalPages > 1 && (

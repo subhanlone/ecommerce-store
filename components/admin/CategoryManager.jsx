@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { categorySchema } from "@/lib/validation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 export default function CategoryManager({ categories }) {
   const router = useRouter();
@@ -15,6 +16,9 @@ export default function CategoryManager({ categories }) {
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
+  // The whole category, so the dialog can name it rather than say "this one".
+  const [pending, setPending] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const {
     register,
@@ -78,9 +82,12 @@ export default function CategoryManager({ categories }) {
     router.refresh();
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this category? Products in it will not be deleted.")) return;
-    const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+  const handleDelete = async () => {
+    if (!pending) return;
+    setDeleting(true);
+    const res = await fetch(`/api/categories/${pending._id}`, { method: "DELETE" });
+    setDeleting(false);
+    setPending(null);
     if (!res.ok) {
       toast.error("Failed to delete category");
       return;
@@ -163,7 +170,7 @@ export default function CategoryManager({ categories }) {
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleDelete(category._id)}
+                        onClick={() => setPending(category)}
                         className="font-medium text-danger hover:underline"
                       >
                         Delete
@@ -176,6 +183,20 @@ export default function CategoryManager({ categories }) {
           })}
         </tbody>
       </table>
+
+      <ConfirmDialog
+        open={!!pending}
+        onOpenChange={(next) => !next && setPending(null)}
+        title="Delete category?"
+        description={
+          pending
+            ? `“${pending.name}” will be removed. Products in it are kept and simply lose their category.`
+            : ""
+        }
+        confirmLabel="Delete category"
+        onConfirm={handleDelete}
+        loading={deleting}
+      />
     </div>
   );
 }

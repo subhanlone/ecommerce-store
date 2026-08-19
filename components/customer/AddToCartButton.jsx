@@ -61,7 +61,7 @@ export default function AddToCartButton({ product }) {
             : "border-line-strong text-text-muted hover:bg-surface-muted hover:text-text"
         }`}
       >
-        <HeartIcon className={`h-4 w-4 ${wishlisted ? "fill-current" : ""}`} />
+        <HeartIcon className="h-4 w-4" weight={wishlisted ? "fill" : "bold"} />
         {wishlisted ? "Wishlisted" : "Wishlist"}
       </button>
     </div>

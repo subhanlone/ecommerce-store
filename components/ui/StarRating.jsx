@@ -23,7 +23,7 @@ export default function StarRating({ rating = 0, count, size = "sm" }) {
       <span className="relative inline-flex" role="img" aria-label={label}>
         <span className="flex gap-0.5 text-line-strong" aria-hidden="true">
           {Array.from({ length: 5 }, (_, i) => (
-            <StarIcon key={i} className={`${starSize} fill-current`} />
+            <StarIcon key={i} className={`${starSize} shrink-0`} weight="fill" />
           ))}
         </span>
         <span
@@ -32,7 +32,7 @@ export default function StarRating({ rating = 0, count, size = "sm" }) {
           aria-hidden="true"
         >
           {Array.from({ length: 5 }, (_, i) => (
-            <StarIcon key={i} className={`${starSize} fill-current`} />
+            <StarIcon key={i} className={`${starSize} shrink-0`} weight="fill" />
           ))}
         </span>
       </span>

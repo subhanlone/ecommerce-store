@@ -150,6 +150,126 @@ h1 {
   font-variant-numeric: tabular-nums;
 }
 
+/*
+  Loading placeholder. A flat grey block reads as a broken image; a slow sweep
+  reads as "working". The sweep is a background animation on purpose — the
+  reduced-motion rule below stops it and leaves the block, rather than leaving
+  an empty space where content is about to appear.
+*/
+.skeleton {
+  background-color: var(--surface-muted);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-sweep {
+  from {
+    background-position: -100% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/*
+  Entrance for grid and list items.
+
+  Deliberately CSS rather than a JS animation library. A JS entrance has to set
+  opacity: 0 during server rendering and only clears it once hydration runs, so
+  a server-rendered product grid is invisible until then — and stays invisible
+  if scripts fail. `backwards` gives the same visual result while keeping the
+  finished state as the resting one, so the products are visible whenever the
+  animation does not run.
+*/
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: reveal-up 0.28s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+/*
+  Dialog motion, driven by the data-state Radix already sets on the overlay and
+  panel. Radix holds the element mounted until the closing animation finishes,
+  so the exit is animated without a JS animation library — this is the same
+  approach the Radix docs and shadcn/ui use.
+
+  Exits run at roughly two-thirds of the enter duration: a panel that leaves as
+  slowly as it arrived feels like the interface is hesitating.
+*/
+@keyframes dialog-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* The panel is centred with a -50%/-50% translate, so the keyframes carry that
+   translate too — otherwise it would fly in from the top-left corner. */
+@keyframes dialog-panel-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes dialog-panel-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.98);
+  }
+}
+
+[data-dialog-overlay][data-state="open"] {
+  animation: dialog-overlay-in 0.15s ease-out;
+}
+
+[data-dialog-overlay][data-state="closed"] {
+  animation: dialog-overlay-out 0.1s ease-in;
+}
+
+[data-dialog-panel][data-state="open"] {
+  animation: dialog-panel-in 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-dialog-panel][data-state="closed"] {
+  animation: dialog-panel-out 0.12s ease-in;
+}
+
 *:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -162,6 +282,10 @@ h1 {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    /* Without this, a staggered item keeps its delay and sits at its `from`
+       state — invisible — for the whole delay before snapping in. Zeroing the
+       duration alone is not enough. */
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

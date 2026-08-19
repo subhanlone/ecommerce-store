@@ -67,7 +67,7 @@ export default function ReviewForm({ productId, existingReview }) {
                 }`}
                 aria-label={`${star} star${star > 1 ? "s" : ""}`}
               >
-                <StarIcon className="h-6 w-6 fill-current" />
+                <StarIcon className="h-6 w-6" weight="fill" />
               </button>
             ))}
           </div>
