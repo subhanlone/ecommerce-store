@@ -1,0 +1,629 @@
+{
+  "currency": "PKR",
+  "categories": [
+    "Mobiles & Tablets",
+    "Electronics",
+    "Men's Fashion",
+    "Women's Fashion",
+    "Home & Kitchen",
+    "Home Appliances",
+    "Beauty & Personal Care",
+    "Books & Stationery",
+    "Sports & Fitness",
+    "Grocery & Pantry"
+  ],
+  "products": [
+    {
+      "name": "Smartphone 128GB",
+      "category": "Mobiles & Tablets",
+      "price": 44999,
+      "stock": 18,
+      "slug": "smartphone-128gb",
+      "description": "6.5-inch display, 128GB storage and a 50MP main camera. Dual SIM, PTA approved.",
+      "existing": false
+    },
+    {
+      "name": "Budget Android Phone 64GB",
+      "category": "Mobiles & Tablets",
+      "price": 24999,
+      "stock": 25,
+      "slug": "budget-android-phone-64gb",
+      "description": "Everyday Android phone with 64GB storage, a 5000mAh battery and dual SIM.",
+      "existing": false
+    },
+    {
+      "name": "Android Tablet 10-inch",
+      "category": "Mobiles & Tablets",
+      "price": 32999,
+      "stock": 12,
+      "slug": "android-tablet-10-inch",
+      "description": "10-inch tablet for study and streaming, with 64GB storage and Wi-Fi.",
+      "existing": false
+    },
+    {
+      "name": "Fast Charger 25W",
+      "category": "Mobiles & Tablets",
+      "price": 2499,
+      "stock": 60,
+      "slug": "fast-charger-25w",
+      "description": "25W fast charger with USB-C output. Takes a typical phone to 50% in about half an hour.",
+      "existing": false
+    },
+    {
+      "name": "Power Bank 20000mAh",
+      "category": "Mobiles & Tablets",
+      "price": 4299,
+      "stock": 40,
+      "slug": "power-bank-20000mah",
+      "description": "20000mAh power bank with two USB outputs — several days of top-ups, or one long load-shedding stretch.",
+      "existing": false
+    },
+    {
+      "name": "Phone Case and Grip",
+      "category": "Mobiles & Tablets",
+      "price": 799,
+      "stock": 80,
+      "slug": "phone-case-and-grip",
+      "description": "Shock-absorbing back cover with a raised camera lip.",
+      "existing": false
+    },
+    {
+      "name": "Wireless Earbuds",
+      "category": "Electronics",
+      "price": 5499,
+      "stock": 35,
+      "slug": "wireless-earbuds",
+      "description": "True wireless earbuds with a charging case and around 24 hours of total playback.",
+      "existing": false
+    },
+    {
+      "name": "LED Monitor 22-inch",
+      "category": "Electronics",
+      "price": 27999,
+      "stock": 10,
+      "slug": "led-monitor-22-inch",
+      "description": "22-inch 1080p IPS monitor with HDMI and VGA inputs.",
+      "existing": false
+    },
+    {
+      "name": "Mechanical Keyboard",
+      "category": "Electronics",
+      "price": 7999,
+      "stock": 15,
+      "slug": "mechanical-keyboard",
+      "description": "Full-size mechanical keyboard with tactile switches and white backlighting.",
+      "existing": false
+    },
+    {
+      "name": "Optical Mouse",
+      "category": "Electronics",
+      "price": 1299,
+      "stock": 55,
+      "slug": "optical-mouse",
+      "description": "Wired optical mouse, 1600 DPI, plug and play.",
+      "existing": false
+    },
+    {
+      "name": "USB Flash Drive 64GB",
+      "category": "Electronics",
+      "price": 1750,
+      "stock": 70,
+      "slug": "usb-flash-drive-64gb",
+      "description": "64GB USB 3.0 flash drive with a metal casing.",
+      "existing": false
+    },
+    {
+      "name": "LED Desk Lamp",
+      "category": "Electronics",
+      "price": 2899,
+      "stock": 30,
+      "slug": "led-desk-lamp",
+      "description": "Adjustable LED desk lamp with three brightness levels — useful when the light goes.",
+      "existing": false
+    },
+    {
+      "name": "Kurta Shalwar",
+      "category": "Men's Fashion",
+      "price": 5950,
+      "stock": 28,
+      "slug": "kurta-shalwar",
+      "description": "Stitched cotton kurta shalwar in a classic straight cut. Suits both Eid and everyday wear.",
+      "existing": false
+    },
+    {
+      "name": "Formal Shirt",
+      "category": "Men's Fashion",
+      "price": 2899,
+      "stock": 45,
+      "slug": "formal-shirt",
+      "description": "Slim-fit formal shirt in a wrinkle-resistant cotton blend.",
+      "existing": false
+    },
+    {
+      "name": "Peshawari Chappal",
+      "category": "Men's Fashion",
+      "price": 3499,
+      "stock": 32,
+      "slug": "peshawari-chappal",
+      "description": "Handmade leather Peshawari chappal with a cushioned sole.",
+      "existing": false
+    },
+    {
+      "name": "Straight-Fit Jeans",
+      "category": "Men's Fashion",
+      "price": 3299,
+      "stock": 38,
+      "slug": "straight-fit-jeans",
+      "description": "Straight-fit denim jeans with a mid rise and a little stretch.",
+      "existing": false
+    },
+    {
+      "name": "Formal Waistcoat",
+      "category": "Men's Fashion",
+      "price": 4750,
+      "stock": 20,
+      "slug": "formal-waistcoat",
+      "description": "Formal waistcoat to layer over a kurta for weddings and functions.",
+      "existing": false
+    },
+    {
+      "name": "Leather Belt",
+      "category": "Men's Fashion",
+      "price": 1899,
+      "stock": 50,
+      "slug": "leather-belt",
+      "description": "Genuine leather belt with a brushed steel buckle.",
+      "existing": false
+    },
+    {
+      "name": "Unstitched Lawn Suit 3-Piece",
+      "category": "Women's Fashion",
+      "price": 4490,
+      "stock": 40,
+      "slug": "unstitched-lawn-suit-3-piece",
+      "description": "Three-piece unstitched lawn — shirt, dupatta and trouser. Digital print, summer weight.",
+      "existing": false
+    },
+    {
+      "name": "Embroidered Kurti",
+      "category": "Women's Fashion",
+      "price": 2650,
+      "stock": 35,
+      "slug": "embroidered-kurti",
+      "description": "Ready-to-wear embroidered kurti in soft viscose.",
+      "existing": false
+    },
+    {
+      "name": "Chiffon Dupatta",
+      "category": "Women's Fashion",
+      "price": 1250,
+      "stock": 60,
+      "slug": "chiffon-dupatta",
+      "description": "Lightweight chiffon dupatta with a finished edge.",
+      "existing": false
+    },
+    {
+      "name": "Ladies Handbag",
+      "category": "Women's Fashion",
+      "price": 3999,
+      "stock": 25,
+      "slug": "ladies-handbag",
+      "description": "Structured shoulder bag with an inner zip pocket.",
+      "existing": false
+    },
+    {
+      "name": "Khussa Shoes",
+      "category": "Women's Fashion",
+      "price": 2199,
+      "stock": 30,
+      "slug": "khussa-shoes",
+      "description": "Hand-embroidered khussa with a leather sole.",
+      "existing": false
+    },
+    {
+      "name": "Pashmina Shawl",
+      "category": "Women's Fashion",
+      "price": 5500,
+      "stock": 18,
+      "slug": "pashmina-shawl",
+      "description": "Woven pashmina-blend shawl, warm enough for a northern winter.",
+      "existing": false
+    },
+    {
+      "name": "Pressure Cooker 5L",
+      "category": "Home & Kitchen",
+      "price": 6999,
+      "stock": 22,
+      "slug": "pressure-cooker-5l",
+      "description": "5-litre aluminium pressure cooker with a safety valve. Cuts daal and beef cooking time sharply.",
+      "existing": false
+    },
+    {
+      "name": "Cookware Set 7-Piece",
+      "category": "Home & Kitchen",
+      "price": 12999,
+      "stock": 12,
+      "slug": "cookware-set-7-piece",
+      "description": "Seven-piece stainless steel cookware set with tempered glass lids.",
+      "existing": false
+    },
+    {
+      "name": "Dinner Set 32-Piece",
+      "category": "Home & Kitchen",
+      "price": 8499,
+      "stock": 15,
+      "slug": "dinner-set-32-piece",
+      "description": "32-piece porcelain dinner set, service for eight.",
+      "existing": false
+    },
+    {
+      "name": "Bamboo Chopping Board",
+      "category": "Home & Kitchen",
+      "price": 899,
+      "stock": 65,
+      "slug": "bamboo-chopping-board",
+      "description": "Bamboo chopping board with a juice groove.",
+      "existing": false
+    },
+    {
+      "name": "Stainless Water Bottle",
+      "category": "Home & Kitchen",
+      "price": 749,
+      "stock": 75,
+      "slug": "stainless-water-bottle",
+      "description": "750ml insulated stainless steel bottle.",
+      "existing": false
+    },
+    {
+      "name": "Stovetop Tea Kettle",
+      "category": "Home & Kitchen",
+      "price": 2450,
+      "stock": 28,
+      "slug": "stovetop-tea-kettle",
+      "description": "Stovetop kettle for chai, with a heat-resistant handle.",
+      "existing": false
+    },
+    {
+      "name": "Storage Jar Set",
+      "category": "Home & Kitchen",
+      "price": 1650,
+      "stock": 40,
+      "slug": "storage-jar-set",
+      "description": "Three airtight glass jars for atta, sugar and pulses.",
+      "existing": false
+    },
+    {
+      "name": "Pedestal Fan",
+      "category": "Home Appliances",
+      "price": 8999,
+      "stock": 20,
+      "slug": "pedestal-fan",
+      "description": "18-inch pedestal fan with three speeds and adjustable height.",
+      "existing": false
+    },
+    {
+      "name": "Steam Iron",
+      "category": "Home Appliances",
+      "price": 4499,
+      "stock": 30,
+      "slug": "steam-iron",
+      "description": "Steam iron with a ceramic soleplate and vertical steam.",
+      "existing": false
+    },
+    {
+      "name": "Electric Kettle 1.7L",
+      "category": "Home Appliances",
+      "price": 3299,
+      "stock": 35,
+      "slug": "electric-kettle-1-7l",
+      "description": "1.7-litre electric kettle with auto shut-off.",
+      "existing": false
+    },
+    {
+      "name": "Microwave Oven 20L",
+      "category": "Home Appliances",
+      "price": 24999,
+      "stock": 8,
+      "slug": "microwave-oven-20l",
+      "description": "20-litre solo microwave with a digital timer.",
+      "existing": false
+    },
+    {
+      "name": "Washing Machine 8kg",
+      "category": "Home Appliances",
+      "price": 34999,
+      "stock": 6,
+      "slug": "washing-machine-8kg",
+      "description": "8kg semi-automatic twin-tub washing machine.",
+      "existing": false
+    },
+    {
+      "name": "Room Air Cooler",
+      "category": "Home Appliances",
+      "price": 18999,
+      "stock": 10,
+      "slug": "room-air-cooler",
+      "description": "Room air cooler with an ice chamber and honeycomb pads.",
+      "existing": false
+    },
+    {
+      "name": "Facial Cleanser",
+      "category": "Beauty & Personal Care",
+      "price": 1150,
+      "stock": 55,
+      "slug": "facial-cleanser",
+      "description": "Gentle daily face wash for normal to oily skin.",
+      "existing": false
+    },
+    {
+      "name": "Herbal Shampoo",
+      "category": "Beauty & Personal Care",
+      "price": 950,
+      "stock": 60,
+      "slug": "herbal-shampoo",
+      "description": "Sulphate-free herbal shampoo, 400ml.",
+      "existing": false
+    },
+    {
+      "name": "Sunscreen SPF 50",
+      "category": "Beauty & Personal Care",
+      "price": 1850,
+      "stock": 45,
+      "slug": "sunscreen-spf-50",
+      "description": "Broad-spectrum SPF 50 sunscreen with a non-greasy finish.",
+      "existing": false
+    },
+    {
+      "name": "Hair Dryer",
+      "category": "Beauty & Personal Care",
+      "price": 4299,
+      "stock": 25,
+      "slug": "hair-dryer",
+      "description": "1800W hair dryer with two heat settings and a cool shot.",
+      "existing": false
+    },
+    {
+      "name": "Perfume 100ml",
+      "category": "Beauty & Personal Care",
+      "price": 3500,
+      "stock": 30,
+      "slug": "perfume-100ml",
+      "description": "Long-lasting eau de parfum with warm amber and oud notes.",
+      "existing": false
+    },
+    {
+      "name": "A5 Notebook",
+      "category": "Books & Stationery",
+      "price": 450,
+      "stock": 90,
+      "slug": "a5-notebook",
+      "description": "160-page ruled A5 notebook with a stitched spine.",
+      "existing": false
+    },
+    {
+      "name": "Ballpoint Pen Set",
+      "category": "Books & Stationery",
+      "price": 350,
+      "stock": 100,
+      "slug": "ballpoint-pen-set",
+      "description": "Pack of ten smooth-writing ballpoint pens.",
+      "existing": false
+    },
+    {
+      "name": "School Backpack",
+      "category": "Books & Stationery",
+      "price": 3999,
+      "stock": 28,
+      "slug": "school-backpack",
+      "description": "Padded backpack with a laptop sleeve and water-bottle pockets.",
+      "existing": false
+    },
+    {
+      "name": "Geometry Box",
+      "category": "Books & Stationery",
+      "price": 650,
+      "stock": 50,
+      "slug": "geometry-box",
+      "description": "Complete geometry set with compass, dividers and set squares.",
+      "existing": false
+    },
+    {
+      "name": "Sticky Notes Pack",
+      "category": "Books & Stationery",
+      "price": 320,
+      "stock": 80,
+      "slug": "sticky-notes-pack",
+      "description": "Five pads of repositionable sticky notes.",
+      "existing": false
+    },
+    {
+      "name": "Cricket Bat English Willow",
+      "category": "Sports & Fitness",
+      "price": 12500,
+      "stock": 14,
+      "slug": "cricket-bat-english-willow",
+      "description": "Grade 2 English willow bat, short handle, ready to knock in.",
+      "existing": false
+    },
+    {
+      "name": "Leather Cricket Ball",
+      "category": "Sports & Fitness",
+      "price": 1850,
+      "stock": 45,
+      "slug": "leather-cricket-ball",
+      "description": "Four-piece hand-stitched leather cricket ball.",
+      "existing": false
+    },
+    {
+      "name": "Football Size 5",
+      "category": "Sports & Fitness",
+      "price": 2499,
+      "stock": 30,
+      "slug": "football-size-5",
+      "description": "Match-weight size 5 football with a machine-stitched cover.",
+      "existing": false
+    },
+    {
+      "name": "Yoga Mat",
+      "category": "Sports & Fitness",
+      "price": 2199,
+      "stock": 35,
+      "slug": "yoga-mat",
+      "description": "6mm non-slip yoga mat with a carry strap.",
+      "existing": false
+    },
+    {
+      "name": "Dumbbell Pair 5kg",
+      "category": "Sports & Fitness",
+      "price": 5999,
+      "stock": 18,
+      "slug": "dumbbell-pair-5kg",
+      "description": "Pair of vinyl-coated 5kg dumbbells.",
+      "existing": false
+    },
+    {
+      "name": "Badminton Racket",
+      "category": "Sports & Fitness",
+      "price": 2899,
+      "stock": 26,
+      "slug": "badminton-racket",
+      "description": "Lightweight aluminium badminton racket with a cover.",
+      "existing": false
+    },
+    {
+      "name": "Basmati Rice 5kg",
+      "category": "Grocery & Pantry",
+      "price": 2850,
+      "stock": 50,
+      "slug": "basmati-rice-5kg",
+      "description": "Aged extra-long grain basmati, 5kg bag.",
+      "existing": false
+    },
+    {
+      "name": "Green Tea 100 Bags",
+      "category": "Grocery & Pantry",
+      "price": 890,
+      "stock": 70,
+      "slug": "green-tea-100-bags",
+      "description": "Box of 100 green tea bags.",
+      "existing": false
+    },
+    {
+      "name": "Cooking Oil 5L",
+      "category": "Grocery & Pantry",
+      "price": 4200,
+      "stock": 40,
+      "slug": "cooking-oil-5l",
+      "description": "5-litre canola cooking oil.",
+      "existing": false
+    },
+    {
+      "name": "Red Chilli Powder 500g",
+      "category": "Grocery & Pantry",
+      "price": 650,
+      "stock": 60,
+      "slug": "red-chilli-powder-500g",
+      "description": "Ground red chilli, 500g pack.",
+      "existing": false
+    },
+    {
+      "name": "Premium Dates 1kg",
+      "category": "Grocery & Pantry",
+      "price": 1450,
+      "stock": 45,
+      "slug": "premium-dates-1kg",
+      "description": "Soft premium dates, 1kg — a Ramadan staple.",
+      "existing": false
+    },
+    {
+      "name": "Natural Honey 500g",
+      "category": "Grocery & Pantry",
+      "price": 1650,
+      "stock": 38,
+      "slug": "natural-honey-500g",
+      "description": "Pure natural honey, 500g jar.",
+      "existing": false
+    },
+    {
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": 8999,
+      "stock": 25,
+      "slug": "wireless-headphones",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Bluetooth Speaker",
+      "category": "Electronics",
+      "price": 6499,
+      "stock": 40,
+      "slug": "bluetooth-speaker",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Smartwatch",
+      "category": "Electronics",
+      "price": 14999,
+      "stock": 15,
+      "slug": "smartwatch",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Cotton T-Shirt",
+      "category": "Men's Fashion",
+      "price": 1499,
+      "stock": 100,
+      "slug": "cotton-t-shirt",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Denim Jacket",
+      "category": "Men's Fashion",
+      "price": 4999,
+      "stock": 30,
+      "slug": "denim-jacket",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Ceramic Mug Set",
+      "category": "Home & Kitchen",
+      "price": 2199,
+      "stock": 60,
+      "slug": "ceramic-mug-set",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Non-Stick Pan",
+      "category": "Home & Kitchen",
+      "price": 3499,
+      "stock": 19,
+      "slug": "non-stick-pan",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "The Pragmatic Programmer",
+      "category": "Books & Stationery",
+      "price": 3200,
+      "stock": 11,
+      "slug": "the-pragmatic-programmer",
+      "description": null,
+      "existing": true
+    },
+    {
+      "name": "Atomic Habits",
+      "category": "Books & Stationery",
+      "price": 1850,
+      "stock": 50,
+      "slug": "atomic-habits",
+      "description": null,
+      "existing": true
+    }
+  ]
+}
