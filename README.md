@@ -50,27 +50,14 @@ separate role-protected admin panel.
    Cloudinary credentials are on your dashboard at
    `https://console.cloudinary.com` after signup.
 
-3. Seed sample categories and products:
-
-   ```bash
-   npm run seed
-   ```
-
-4. Upload real product photos to Cloudinary (sourced images live in
-   `scripts/product-images/`):
-
-   ```bash
-   npm run seed:images
-   ```
-
-5. Create an admin account (registration through the UI always creates
+3. Create an admin account (registration through the UI always creates
    `customer` role accounts — this is the only way to get an admin):
 
    ```bash
    npm run create-admin -- admin@example.com yourpassword "Admin Name"
    ```
 
-6. Start the dev server:
+4. Start the dev server:
 
    ```bash
    npm run dev
@@ -93,7 +80,7 @@ components/         # customer/, admin/, ui/ — shared UI pieces
 models/             # Mongoose schemas: User, Product, Category, Order, Cart, Review
 lib/                # db.js (connection), validation.js (zod schemas), utils.js, cloudinary.js, auth-helpers.js
 store/              # Zustand stores: cartStore, wishlistStore
-scripts/            # seed.mjs, createAdmin.mjs, addProductImages.mjs, product-images/ (source photos)
+scripts/            # createAdmin.mjs — administrator account creation
 auth.js             # Auth.js v5 config (root-level, per Auth.js convention)
 proxy.js            # Route protection for /admin, /checkout, /orders (Next.js 16's replacement for middleware.js)
 ```

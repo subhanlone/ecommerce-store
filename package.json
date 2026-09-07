@@ -7,8 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node --env-file=.env.local scripts/seed.mjs",
-    "seed:images": "node --env-file=.env.local scripts/addProductImages.mjs",
     "create-admin": "node --env-file=.env.local scripts/createAdmin.mjs"
   },
   "dependencies": {
