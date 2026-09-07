@@ -5,7 +5,7 @@ import { formatPrice } from "@/lib/utils";
 
 const LOW_STOCK_THRESHOLD = 5;
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, eager = false }) {
   const image = product.images?.[0];
   const outOfStock = product.stock === 0;
   const lowStock = !outOfStock && product.stock <= LOW_STOCK_THRESHOLD;
@@ -21,8 +21,9 @@ export default function ProductCard({ product }) {
             src={image}
             alt={product.name}
             fill
+            loading={eager ? "eager" : "lazy"}
             className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+            sizes="(min-width: 1152px) 276px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-text-subtle">

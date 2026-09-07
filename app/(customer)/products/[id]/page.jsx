@@ -42,8 +42,9 @@ export default async function ProductDetailPage({ params }) {
               src={serialized.images[0]}
               alt={serialized.name}
               fill
+              preload
               className="object-cover"
-              sizes="(min-width: 768px) 50vw, 100vw"
+              sizes="(min-width: 1152px) 560px, (min-width: 768px) 50vw, 100vw"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-text-subtle">

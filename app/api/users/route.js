@@ -11,7 +11,10 @@ export async function GET() {
 
   await connectDB();
 
-  const customers = await User.find({ role: "customer" }).sort({ createdAt: -1 }).lean();
+  const customers = await User.find({ role: "customer" })
+    .select("name email role createdAt")
+    .sort({ createdAt: -1 })
+    .lean();
   const orderCounts = await Order.aggregate([
     { $group: { _id: "$user", count: { $sum: 1 } } },
   ]);

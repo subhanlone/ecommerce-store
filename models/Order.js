@@ -32,8 +32,12 @@ const OrderSchema = new mongoose.Schema(
     status: { type: String, enum: ORDER_STATUSES, default: "Pending" },
     paymentMethod: { type: String, enum: ["COD"], default: "COD" },
     shippingAddress: { type: ShippingAddressSchema, required: true },
+    stockRestored: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
+
+OrderSchema.index({ user: 1, createdAt: -1 });
+OrderSchema.index({ status: 1, createdAt: -1 });
 
 export default mongoose.models.Order || mongoose.model("Order", OrderSchema);

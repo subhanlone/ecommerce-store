@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db";
 import Cart from "@/models/Cart";
 import Product from "@/models/Product";
 import { requireUser } from "@/lib/auth-helpers";
+import { cartStateSchema } from "@/lib/validation";
 
 export async function GET() {
   const session = await requireUser();
@@ -35,26 +36,45 @@ export async function PUT(request) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { items } = await request.json();
-  if (!Array.isArray(items)) {
-    return Response.json({ error: "items must be an array" }, { status: 400 });
+  const parsed = cartStateSchema.safeParse(await request.json());
+  if (!parsed.success) {
+    return Response.json(
+      { error: parsed.error.issues[0]?.message ?? "Invalid cart" },
+      { status: 400 }
+    );
   }
+  const deduplicatedItems = [...new Map(
+    parsed.data.items.map((item) => [item.productId, item])
+  ).values()];
 
   await connectDB();
 
-  const validIds = new Set(
-    (await Product.find({ _id: { $in: items.map((i) => i.productId) } }, "_id"))
-      .map((p) => p._id.toString())
-  );
+  const products = await Product.find(
+    { _id: { $in: deduplicatedItems.map((item) => item.productId) } },
+    "_id stock name"
+  ).lean();
+  const productMap = new Map(products.map((product) => [product._id.toString(), product]));
 
-  const cartItems = items
-    .filter((i) => validIds.has(i.productId))
-    .map((i) => ({ product: i.productId, qty: Math.max(1, i.qty) }));
+  if (products.length !== deduplicatedItems.length) {
+    return Response.json({ error: "One or more products no longer exist" }, { status: 409 });
+  }
+  const unavailable = deduplicatedItems.find((item) => item.qty > productMap.get(item.productId).stock);
+  if (unavailable) {
+    return Response.json(
+      { error: `${productMap.get(unavailable.productId).name} does not have enough stock` },
+      { status: 409 }
+    );
+  }
+
+  const cartItems = deduplicatedItems.map((item) => ({
+    product: item.productId,
+    qty: item.qty,
+  }));
 
   await Cart.findOneAndUpdate(
     { user: session.user.id },
     { items: cartItems },
-    { upsert: true, new: true }
+    { upsert: true, new: true, runValidators: true }
   );
 
   return Response.json({ success: true });

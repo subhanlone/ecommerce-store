@@ -1,7 +1,9 @@
 import { connectDB } from "@/lib/db";
 import Product from "@/models/Product";
+import Category from "@/models/Category";
 import { productSchema } from "@/lib/validation";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { isValidObjectId } from "@/lib/object-id";
 
 const SORT_MAP = {
   price_asc: { price: 1 },
@@ -15,12 +17,16 @@ export async function GET(request) {
   await connectDB();
 
   const { searchParams } = new URL(request.url);
-  const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+  const requestedPage = Number.parseInt(searchParams.get("page") || "1", 10);
+  const page = Number.isFinite(requestedPage) ? Math.max(1, requestedPage) : 1;
   const category = searchParams.get("category");
   const q = searchParams.get("q");
   const sort = SORT_MAP[searchParams.get("sort")] || SORT_MAP.newest;
 
   const filter = {};
+  if (category && !isValidObjectId(category)) {
+    return Response.json({ error: "Invalid category ID" }, { status: 400 });
+  }
   if (category) filter.category = category;
   if (q) filter.$text = { $search: q };
 
@@ -61,6 +67,9 @@ export async function POST(request) {
   }
 
   await connectDB();
+  if (!(await Category.exists({ _id: parsed.data.category }))) {
+    return Response.json({ error: "Category not found" }, { status: 400 });
+  }
   const product = await Product.create(parsed.data);
   return Response.json({ product }, { status: 201 });
 }

@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db";
 import Wishlist from "@/models/Wishlist";
 import Product from "@/models/Product";
 import { requireUser } from "@/lib/auth-helpers";
+import { wishlistStateSchema } from "@/lib/validation";
 
 export async function GET() {
   const session = await requireUser();
@@ -33,26 +34,32 @@ export async function PUT(request) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { items } = await request.json();
-  if (!Array.isArray(items)) {
-    return Response.json({ error: "items must be an array" }, { status: 400 });
+  const parsed = wishlistStateSchema.safeParse(await request.json());
+  if (!parsed.success) {
+    return Response.json(
+      { error: parsed.error.issues[0]?.message ?? "Invalid wishlist" },
+      { status: 400 }
+    );
   }
+  const productIds = [...new Set(parsed.data.items.map((item) => item.productId))];
 
   await connectDB();
 
   const validIds = new Set(
-    (await Product.find({ _id: { $in: items.map((i) => i.productId) } }, "_id"))
+    (await Product.find({ _id: { $in: productIds } }, "_id"))
       .map((p) => p._id.toString())
   );
 
-  const wishlistItems = items
-    .filter((i) => validIds.has(i.productId))
-    .map((i) => ({ product: i.productId }));
+  if (validIds.size !== productIds.length) {
+    return Response.json({ error: "One or more products no longer exist" }, { status: 409 });
+  }
+
+  const wishlistItems = productIds.map((productId) => ({ product: productId }));
 
   await Wishlist.findOneAndUpdate(
     { user: session.user.id },
     { items: wishlistItems },
-    { upsert: true, new: true }
+    { upsert: true, new: true, runValidators: true }
   );
 
   return Response.json({ success: true });

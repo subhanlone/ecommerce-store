@@ -1,8 +1,10 @@
 import { connectDB } from "@/lib/db";
 import Category from "@/models/Category";
+import Product from "@/models/Product";
 import { categorySchema } from "@/lib/validation";
 import { requireAdmin } from "@/lib/auth-helpers";
 import { slugify } from "@/lib/utils";
+import { isValidObjectId } from "@/lib/object-id";
 
 export async function PUT(request, { params }) {
   const session = await requireAdmin();
@@ -11,6 +13,9 @@ export async function PUT(request, { params }) {
   }
 
   const { id } = await params;
+  if (!isValidObjectId(id)) {
+    return Response.json({ error: "Invalid category ID" }, { status: 400 });
+  }
   const body = await request.json();
   const parsed = categorySchema.safeParse(body);
   if (!parsed.success) {
@@ -31,7 +36,7 @@ export async function PUT(request, { params }) {
   const category = await Category.findByIdAndUpdate(
     id,
     { name: parsed.data.name, slug },
-    { new: true }
+    { new: true, runValidators: true }
   );
 
   if (!category) {
@@ -48,7 +53,20 @@ export async function DELETE(request, { params }) {
   }
 
   const { id } = await params;
+  if (!isValidObjectId(id)) {
+    return Response.json({ error: "Invalid category ID" }, { status: 400 });
+  }
   await connectDB();
+  if (await Product.exists({ category: id })) {
+    return Response.json(
+      { error: "Category cannot be deleted while products still reference it" },
+      { status: 409 }
+    );
+  }
+  const category = await Category.findById(id);
+  if (!category) {
+    return Response.json({ error: "Category not found" }, { status: 404 });
+  }
   await Category.findByIdAndDelete(id);
   return Response.json({ success: true });
 }

@@ -76,8 +76,8 @@ export default async function ProductsPage({ searchParams }) {
         </div>
       ) : (
         <Reveal className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {serializedProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
+          {serializedProducts.map((product, index) => (
+            <ProductCard key={product._id} product={product} eager={index < 4} />
           ))}
         </Reveal>
       )}

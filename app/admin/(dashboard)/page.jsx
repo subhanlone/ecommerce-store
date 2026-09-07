@@ -24,7 +24,7 @@ export default async function AdminDashboardPage() {
     Order.countDocuments(),
     Product.countDocuments(),
     User.countDocuments({ role: "customer" }),
-    Order.find().select("totalAmount").lean(),
+    Order.find({ status: { $ne: "Cancelled" } }).select("totalAmount").lean(),
     Order.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
   ]);
 

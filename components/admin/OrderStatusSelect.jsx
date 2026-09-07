@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { ORDER_STATUSES } from "@/lib/constants";
+import { ORDER_TRANSITIONS } from "@/lib/constants";
 import { STATUS_META } from "@/components/ui/StatusBadge";
 
 export default function OrderStatusSelect({ orderId, currentStatus }) {
@@ -43,6 +43,7 @@ export default function OrderStatusSelect({ orderId, currentStatus }) {
   };
 
   const meta = STATUS_META[status];
+  const availableStatuses = [status, ...(ORDER_TRANSITIONS[status] || [])];
 
   return (
     <select
@@ -53,7 +54,7 @@ export default function OrderStatusSelect({ orderId, currentStatus }) {
       className="h-9 cursor-pointer rounded-full border-0 px-3 text-sm font-medium transition-opacity disabled:opacity-50"
       style={{ backgroundColor: `var(${meta.bg})`, color: `var(${meta.fg})` }}
     >
-      {ORDER_STATUSES.map((s) => (
+      {availableStatuses.map((s) => (
         <option key={s} value={s}>
           {s}
         </option>
