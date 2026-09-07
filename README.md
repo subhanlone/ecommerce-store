@@ -40,6 +40,7 @@ separate role-protected admin panel.
 
    ```bash
    MONGODB_URI=mongodb://localhost:27017/ecommerce-store   # or your Atlas URI
+   AUTH_URL=http://localhost:3000                           # local canonical URL
    AUTH_SECRET=...                                          # already generated
    CLOUDINARY_CLOUD_NAME=
    CLOUDINARY_API_KEY=
