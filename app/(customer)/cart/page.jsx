@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
 import CartItem from "@/components/customer/CartItem";
 import Button from "@/components/ui/Button";
+import { formatPrice } from "@/lib/utils";
 
 export default function CartPage() {
   const items = useCartStore((s) => s.items);
@@ -29,7 +30,7 @@ export default function CartPage() {
         ))}
       </div>
       <div className="mt-6 flex items-center justify-between">
-        <p className="text-lg font-semibold">Total: ${total.toFixed(2)}</p>
+        <p className="text-lg font-semibold">Total: {formatPrice(total)}</p>
         <Link href="/checkout">
           <Button>Proceed to Checkout</Button>
         </Link>

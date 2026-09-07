@@ -4,6 +4,7 @@ import Order from "@/models/Order";
 import { auth } from "@/auth";
 import Button from "@/components/ui/Button";
 import StatusBadge from "@/components/ui/StatusBadge";
+import { formatDate, formatPrice } from "@/lib/utils";
 
 export default async function OrderHistoryPage() {
   const session = await auth();
@@ -39,14 +40,14 @@ export default async function OrderHistoryPage() {
                   Order #{order._id.toString().slice(-8)}
                 </p>
                 <p className="mt-0.5 text-sm text-text-muted">
-                  {new Date(order.createdAt).toLocaleDateString()} &middot; {order.items.length}{" "}
+                  {formatDate(order.createdAt)} &middot; {order.items.length}{" "}
                   item{order.items.length === 1 ? "" : "s"}
                 </p>
               </div>
 
               <div className="flex shrink-0 items-center gap-4">
                 <span className="tabular font-semibold text-text">
-                  ${order.totalAmount.toFixed(2)}
+                  {formatPrice(order.totalAmount)}
                 </span>
                 <StatusBadge status={order.status} />
               </div>

@@ -8,6 +8,7 @@ import { auth } from "@/auth";
 import AddToCartButton from "@/components/customer/AddToCartButton";
 import ReviewForm from "@/components/customer/ReviewForm";
 import StarRating from "@/components/ui/StarRating";
+import { formatDate, formatPrice } from "@/lib/utils";
 
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
@@ -65,7 +66,7 @@ export default async function ProductDetailPage({ params }) {
           <h1 className="text-3xl font-semibold text-text">{serialized.name}</h1>
           <StarRating rating={serialized.ratingAvg} count={serialized.ratingCount} size="lg" />
           <p className="tabular text-2xl font-semibold text-accent">
-            ${Number(serialized.price).toFixed(2)}
+            {formatPrice(serialized.price)}
           </p>
           <p className="text-sm leading-relaxed text-text-muted">{serialized.description}</p>
 
@@ -134,7 +135,7 @@ export default async function ProductDetailPage({ params }) {
                   <p className="mt-1 text-sm text-text-muted">{review.comment}</p>
                 )}
                 <p className="mt-1 text-xs text-text-subtle">
-                  {new Date(review.createdAt).toLocaleDateString()}
+                  {formatDate(review.createdAt)}
                 </p>
               </div>
             ))}

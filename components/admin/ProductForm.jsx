@@ -78,10 +78,12 @@ export default function ProductForm({ categories, initialData, productId }) {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Price"
+          label="Price (PKR)"
           id="price"
           type="number"
-          step="0.01"
+          step="1"
+          min="0"
+          hint="Whole rupees"
           error={errors.price?.message}
           {...register("price")}
         />

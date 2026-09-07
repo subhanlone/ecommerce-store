@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ORDER_STATUSES } from "@/lib/constants";
 import { STATUS_META } from "@/components/ui/StatusBadge";
+import { formatDate, formatPrice } from "@/lib/utils";
 
 export default function OrderTable({ orders }) {
   const router = useRouter();
@@ -69,10 +70,10 @@ export default function OrderTable({ orders }) {
                   {order.items.length} item{order.items.length === 1 ? "" : "s"}
                 </td>
                 <td className="px-4 py-3 tabular text-text-muted">
-                  {new Date(order.createdAt).toLocaleDateString()}
+                  {formatDate(order.createdAt)}
                 </td>
                 <td className="px-4 py-3 tabular font-medium text-text">
-                  ${order.totalAmount.toFixed(2)}
+                  {formatPrice(order.totalAmount)}
                 </td>
                 <td className="px-4 py-3">
                   {/*

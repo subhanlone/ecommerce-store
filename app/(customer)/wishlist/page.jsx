@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useCartStore } from "@/store/cartStore";
 import Button from "@/components/ui/Button";
+import { formatPrice } from "@/lib/utils";
 
 export default function WishlistPage() {
   const items = useWishlistStore((s) => s.items);
@@ -41,7 +42,7 @@ export default function WishlistPage() {
               <Link href={`/products/${item.productId}`} className="font-medium hover:text-accent">
                 {item.name}
               </Link>
-              <p className="text-sm text-text-subtle">${item.price.toFixed(2)}</p>
+              <p className="text-sm text-text-subtle">{formatPrice(item.price)}</p>
             </div>
             <Button
               variant="secondary"

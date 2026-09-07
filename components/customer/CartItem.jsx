@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
+import { formatPrice } from "@/lib/utils";
 
 export default function CartItem({ item }) {
   const updateQty = useCartStore((s) => s.updateQty);
@@ -17,7 +18,7 @@ export default function CartItem({ item }) {
 
       <div className="min-w-0 flex-1">
         <p className="font-medium text-text">{item.name}</p>
-        <p className="tabular text-sm text-text-subtle">${item.price.toFixed(2)}</p>
+        <p className="tabular text-sm text-text-subtle">{formatPrice(item.price)}</p>
       </div>
 
       {/* Was unlabelled: a bare number spinner announces nothing, and there is
@@ -33,7 +34,7 @@ export default function CartItem({ item }) {
       />
 
       <p className="tabular w-20 shrink-0 text-right font-medium text-text">
-        ${(item.price * item.qty).toFixed(2)}
+        {formatPrice(item.price * item.qty)}
       </p>
 
       <button

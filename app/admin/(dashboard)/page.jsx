@@ -5,6 +5,7 @@ import User from "@/models/User";
 import DashboardCard from "@/components/admin/DashboardCard";
 
 import { ORDER_STATUSES } from "@/lib/constants";
+import { formatPrice } from "@/lib/utils";
 
 /* Same hues as the status badges, from the same tokens, so a status means one
    colour whether you meet it here or in the orders table. */
@@ -43,7 +44,7 @@ export default async function AdminDashboardPage() {
       <h1 className="text-2xl font-semibold text-text">Dashboard</h1>
 
       <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <DashboardCard label="Total Sales" value={`$${totalSales.toFixed(2)}`} />
+        <DashboardCard label="Total Sales" value={formatPrice(totalSales)} />
         <DashboardCard label="Total Orders" value={totalOrders} />
         <DashboardCard label="Total Products" value={totalProducts} />
         <DashboardCard label="Total Customers" value={totalCustomers} />

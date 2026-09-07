@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 import Order from "@/models/Order";
+import { formatDate } from "@/lib/utils";
 
 export default async function AdminCustomersPage() {
   await connectDB();
@@ -29,7 +30,7 @@ export default async function AdminCustomersPage() {
               <tr key={customer._id} className="border-t border-line">
                 <td className="px-4 py-2">{customer.name}</td>
                 <td className="px-4 py-2">{customer.email}</td>
-                <td className="px-4 py-2">{new Date(customer.createdAt).toLocaleDateString()}</td>
+                <td className="px-4 py-2">{formatDate(customer.createdAt)}</td>
                 <td className="px-4 py-2">{countMap.get(customer._id.toString()) || 0}</td>
               </tr>
             ))}

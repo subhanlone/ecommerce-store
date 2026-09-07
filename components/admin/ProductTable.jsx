@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { TrashIcon, EditIcon } from "@/components/ui/icons";
+import { formatPrice } from "@/lib/utils";
 
 export default function ProductTable({ products }) {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function ProductTable({ products }) {
             <tr key={product._id} className="border-t border-line hover:bg-surface-muted/60">
               <td className="px-4 py-3 font-medium text-text">{product.name}</td>
               <td className="px-4 py-3 text-text-muted">{product.category?.name || "—"}</td>
-              <td className="tabular px-4 py-3 text-text">${product.price.toFixed(2)}</td>
+              <td className="tabular px-4 py-3 text-text">{formatPrice(product.price)}</td>
               {/*
                 Stock is the column an admin scans this table for. Calling out
                 empty and nearly-empty lines means restocking doesn't depend on

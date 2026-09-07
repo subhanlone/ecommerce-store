@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import StarRating from "@/components/ui/StarRating";
+import { formatPrice } from "@/lib/utils";
 
 const LOW_STOCK_THRESHOLD = 5;
 
@@ -71,7 +72,7 @@ export default function ProductCard({ product }) {
           whose names wrap to different line counts.
         */}
         <p className="tabular mt-auto pt-2 text-base font-semibold text-accent">
-          ${Number(product.price).toFixed(2)}
+          {formatPrice(product.price)}
         </p>
       </div>
     </Link>

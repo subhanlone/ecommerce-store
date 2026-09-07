@@ -6,8 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { shippingAddressSchema } from "@/lib/validation";
+import { COUNTRY, PK_PROVINCES } from "@/lib/constants";
+import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 import Input from "@/components/ui/Input";
+import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 
 export default function CheckoutPage() {
@@ -22,7 +25,11 @@ export default function CheckoutPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(shippingAddressSchema) });
+  } = useForm({
+    resolver: zodResolver(shippingAddressSchema),
+    // The store ships domestically only, so country is not a question we ask.
+    defaultValues: { country: COUNTRY },
+  });
 
   const onSubmit = async (shippingAddress) => {
     setSubmitting(true);
@@ -62,20 +69,40 @@ export default function CheckoutPage() {
           <Input label="Address line 2 (optional)" id="line2" {...register("line2")} />
           <div className="grid grid-cols-2 gap-4">
             <Input label="City" id="city" error={errors.city?.message} {...register("city")} />
-            <Input label="State" id="state" error={errors.state?.message} {...register("state")} />
+            <Select
+              label="Province"
+              id="state"
+              placeholder="Select a province"
+              options={PK_PROVINCES}
+              error={errors.state?.message}
+              {...register("state")}
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <Input
               label="Postal code"
               id="postalCode"
+              inputMode="numeric"
+              hint="5 digits, e.g. 54000"
               error={errors.postalCode?.message}
               {...register("postalCode")}
             />
-            <Input label="Country" id="country" error={errors.country?.message} {...register("country")} />
+            {/* Shown, not editable — the customer should still see where the
+                parcel is going, but it is not a choice. */}
+            <Input label="Country" id="country" value={COUNTRY} readOnly disabled />
           </div>
-          <Input label="Phone" id="phone" error={errors.phone?.message} {...register("phone")} />
+          <input type="hidden" {...register("country")} />
+          <Input
+            label="Phone"
+            id="phone"
+            type="tel"
+            inputMode="tel"
+            hint="e.g. 0300 1234567"
+            error={errors.phone?.message}
+            {...register("phone")}
+          />
           <Button type="submit" loading={submitting}>
-            {`Place order (COD) — $${total.toFixed(2)}`}
+            {`Place order (COD) — ${formatPrice(total)}`}
           </Button>
         </form>
       </div>
@@ -88,12 +115,12 @@ export default function CheckoutPage() {
               <span>
                 {item.name} &times; {item.qty}
               </span>
-              <span className="font-medium">${(item.price * item.qty).toFixed(2)}</span>
+              <span className="font-medium">{formatPrice(item.price * item.qty)}</span>
             </div>
           ))}
           <div className="flex items-center justify-between px-4 py-3 font-semibold">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatPrice(total)}</span>
           </div>
         </div>
         <p className="mt-3 text-xs text-text-subtle">

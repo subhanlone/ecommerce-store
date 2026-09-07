@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import Order from "@/models/Order";
 import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 import OrderProgress from "@/components/ui/OrderProgress";
+import { formatDate, formatPrice } from "@/lib/utils";
 
 export default async function AdminOrderDetailPage({ params }) {
   const { id } = await params;
@@ -25,7 +26,7 @@ export default async function AdminOrderDetailPage({ params }) {
             {order.user?.name} &middot; {order.user?.email}
           </p>
           <p className="mt-0.5 text-sm text-text-subtle">
-            Placed on {new Date(order.createdAt).toLocaleDateString()}
+            Placed on {formatDate(order.createdAt)}
           </p>
         </div>
         <OrderStatusSelect orderId={order._id.toString()} currentStatus={order.status} />
@@ -47,13 +48,13 @@ export default async function AdminOrderDetailPage({ params }) {
               {item.name} <span className="text-text-subtle">&times; {item.qty}</span>
             </span>
             <span className="tabular shrink-0 font-medium text-text">
-              ${(item.price * item.qty).toFixed(2)}
+              {formatPrice(item.price * item.qty)}
             </span>
           </div>
         ))}
         <div className="flex items-center justify-between border-t-2 border-line bg-surface-muted px-4 py-3 font-semibold text-text">
           <span>Total</span>
-          <span className="tabular">${order.totalAmount.toFixed(2)}</span>
+          <span className="tabular">{formatPrice(order.totalAmount)}</span>
         </div>
       </div>
 

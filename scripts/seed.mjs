@@ -10,23 +10,24 @@ const categories = [
   { name: "Books", slug: "books" },
 ];
 
+// Prices are in PKR, whole rupees — see lib/constants.js.
 const productsByCategory = {
   electronics: [
-    { name: "Wireless Headphones", price: 59.99, stock: 25 },
-    { name: "Bluetooth Speaker", price: 34.99, stock: 40 },
-    { name: "Smartwatch", price: 89.99, stock: 15 },
+    { name: "Wireless Headphones", price: 8999, stock: 25 },
+    { name: "Bluetooth Speaker", price: 6499, stock: 40 },
+    { name: "Smartwatch", price: 14999, stock: 15 },
   ],
   clothing: [
-    { name: "Cotton T-Shirt", price: 14.99, stock: 100 },
-    { name: "Denim Jacket", price: 49.99, stock: 30 },
+    { name: "Cotton T-Shirt", price: 1499, stock: 100 },
+    { name: "Denim Jacket", price: 4999, stock: 30 },
   ],
   "home-kitchen": [
-    { name: "Ceramic Mug Set", price: 19.99, stock: 60 },
-    { name: "Non-Stick Pan", price: 27.99, stock: 20 },
+    { name: "Ceramic Mug Set", price: 2199, stock: 60 },
+    { name: "Non-Stick Pan", price: 3499, stock: 20 },
   ],
   books: [
-    { name: "The Pragmatic Programmer", price: 32.5, stock: 12 },
-    { name: "Atomic Habits", price: 16.99, stock: 50 },
+    { name: "The Pragmatic Programmer", price: 3200, stock: 12 },
+    { name: "Atomic Habits", price: 1850, stock: 50 },
   ],
 };
 

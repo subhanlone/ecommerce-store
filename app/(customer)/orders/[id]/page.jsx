@@ -4,6 +4,7 @@ import Order from "@/models/Order";
 import { auth } from "@/auth";
 import StatusBadge from "@/components/ui/StatusBadge";
 import OrderProgress from "@/components/ui/OrderProgress";
+import { formatDate, formatPrice } from "@/lib/utils";
 
 export default async function OrderDetailPage({ params }) {
   const { id } = await params;
@@ -29,7 +30,7 @@ export default async function OrderDetailPage({ params }) {
             Order #{order._id.toString().slice(-8)}
           </h1>
           <p className="mt-0.5 text-sm text-text-muted">
-            Placed on {new Date(order.createdAt).toLocaleDateString()}
+            Placed on {formatDate(order.createdAt)}
           </p>
         </div>
         <StatusBadge status={order.status} size="md" />
@@ -49,13 +50,13 @@ export default async function OrderDetailPage({ params }) {
               {item.name} <span className="text-text-subtle">&times; {item.qty}</span>
             </span>
             <span className="tabular shrink-0 font-medium text-text">
-              ${(item.price * item.qty).toFixed(2)}
+              {formatPrice(item.price * item.qty)}
             </span>
           </div>
         ))}
         <div className="flex items-center justify-between border-t-2 border-line bg-surface-muted px-4 py-3 font-semibold text-text">
           <span>Total</span>
-          <span className="tabular">${order.totalAmount.toFixed(2)}</span>
+          <span className="tabular">{formatPrice(order.totalAmount)}</span>
         </div>
       </div>
 
