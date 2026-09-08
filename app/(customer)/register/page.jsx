@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { registerSchema } from "@/lib/validation";
-import { mergeGuestCartOnLogin, mergeGuestWishlistOnLogin } from "@/lib/mergeGuestCart";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
@@ -51,7 +50,6 @@ export default function RegisterPage() {
     }
 
     toast.success("Account created");
-    await Promise.all([mergeGuestCartOnLogin(), mergeGuestWishlistOnLogin()]);
     router.push("/");
   };
 

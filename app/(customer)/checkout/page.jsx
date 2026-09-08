@@ -49,7 +49,7 @@ export default function CheckoutPage() {
     setOrderPlaced(true);
     clear();
     toast.success("Order placed");
-    router.push(`/orders/${result.order._id}`);
+    router.replace(`/orders/${result.order._id}/confirmation`);
   };
 
   if (items.length === 0 && !orderPlaced) {

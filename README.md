@@ -50,14 +50,27 @@ separate role-protected admin panel.
    Cloudinary credentials are on your dashboard at
    `https://console.cloudinary.com` after signup.
 
-3. Create an admin account (registration through the UI always creates
+3. Optionally add the basic sample catalogue required by the project brief.
+   The seeder is idempotent and never deletes or overwrites existing records:
+
+   ```bash
+   npm run seed
+   ```
+
+   Preview what it would add without writing anything:
+
+   ```bash
+   npm run seed -- --dry-run
+   ```
+
+4. Create an admin account (registration through the UI always creates
    `customer` role accounts — this is the only way to get an admin):
 
    ```bash
    npm run create-admin -- admin@example.com yourpassword "Admin Name"
    ```
 
-4. Start the dev server:
+5. Start the dev server:
 
    ```bash
    npm run dev
@@ -80,7 +93,7 @@ components/         # customer/, admin/, ui/ — shared UI pieces
 models/             # Mongoose schemas: User, Product, Category, Order, Cart, Review
 lib/                # db.js (connection), validation.js (zod schemas), utils.js, cloudinary.js, auth-helpers.js
 store/              # Zustand stores: cartStore, wishlistStore
-scripts/            # createAdmin.mjs — administrator account creation
+scripts/            # non-destructive sample seeder and administrator account creation
 auth.js             # Auth.js v5 config (root-level, per Auth.js convention)
 proxy.js            # Route protection for /admin, /checkout, /orders (Next.js 16's replacement for middleware.js)
 ```
@@ -94,11 +107,11 @@ proxy.js            # Route protection for /admin, /checkout, /orders (Next.js 1
   product (resubmitting edits it), and `Product.ratingAvg`/`ratingCount` is
   recomputed on every submit and shown on both the product card and detail
   page.
-- **Coupons/Discounts, Notifications**: still marked optional/extra in the
-  project brief and not implemented.
-- **Wishlist** is client-side only (Zustand + localStorage) — the brief does
-  not define a Wishlist database model, so it does not sync across devices or
-  survive a cleared browser.
+- **Coupons/Discounts** remain optional and are not implemented. Order and
+  administration actions use toast notifications; email and customer
+  status-change notifications remain optional and are not implemented.
+- **Wishlist** persists to `localStorage` for guests and synchronizes with
+  MongoDB for authenticated customers.
 - **Cart** persists to MongoDB for logged-in users (synced on login and on
   every change) and to `localStorage` for guests; a guest cart merges into the
   account cart on login.

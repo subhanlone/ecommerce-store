@@ -4,37 +4,91 @@ import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useCartStore } from "@/store/cartStore";
 
+function mergeCartItems(serverItems, localItems) {
+  const merged = new Map(serverItems.map((item) => [item.productId, { ...item }]));
+
+  for (const local of localItems) {
+    const server = merged.get(local.productId);
+    if (!server) {
+      merged.set(local.productId, { ...local });
+      continue;
+    }
+
+    const stock = server.stock ?? local.stock;
+    const qty = Math.max(server.qty, local.qty);
+    merged.set(local.productId, {
+      ...local,
+      ...server,
+      qty: stock == null ? qty : Math.min(qty, stock),
+    });
+  }
+
+  return [...merged.values()];
+}
+
+function waitForStoreHydration() {
+  if (useCartStore.persist.hasHydrated()) return Promise.resolve();
+  return new Promise((resolve) => {
+    const unsubscribe = useCartStore.persist.onFinishHydration(() => {
+      unsubscribe();
+      resolve();
+    });
+  });
+}
+
 export default function CartSync() {
-  const { status } = useSession();
-  const items = useCartStore((s) => s.items);
-  const replace = useCartStore((s) => s.replace);
+  const { data: session, status } = useSession();
+  const items = useCartStore((state) => state.items);
+  const replace = useCartStore((state) => state.replace);
   const fetchStartedRef = useRef(false);
   const hydratedRef = useRef(false);
   const skipNextSync = useRef(false);
 
-  // On every fresh mount while authenticated, server is the source of truth —
-  // fetch and replace. Safe to run on every page load: unlike a merge, this
-  // can't compound, since it never adds to what's already there.
-  //
-  // hydratedRef only flips true once the fetch resolves (not when it starts).
-  // Until then the sync-to-server effect below stays gated, so it can never
-  // PUT a stale pre-hydration items value (e.g. zustand's persisted state
-  // before it rehydrates from localStorage) and wipe the server cart.
+  // Merge once after both the authenticated session and Zustand persistence
+  // are ready. Taking the maximum quantity makes the merge idempotent: a
+  // session expiry followed by another login cannot add the same cart twice.
   useEffect(() => {
-    if (status !== "authenticated" || fetchStartedRef.current) return;
+    if (status !== "authenticated" || session?.user?.role !== "customer") {
+      fetchStartedRef.current = false;
+      hydratedRef.current = false;
+      return;
+    }
+    if (fetchStartedRef.current) return;
     fetchStartedRef.current = true;
 
-    fetch("/api/cart")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
+    let cancelled = false;
+
+    async function hydrateAndSync() {
+      await waitForStoreHydration();
+      const res = await fetch("/api/cart");
+      const data = res.ok ? await res.json() : null;
+      if (cancelled) return;
+
+      if (data) {
+        const merged = mergeCartItems(data.items, useCartStore.getState().items);
         skipNextSync.current = true;
-        if (data) replace(data.items);
-        hydratedRef.current = true;
-      });
-  }, [status, replace]);
+        replace(merged);
+        await fetch("/api/cart", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items: merged }),
+        });
+      }
+      hydratedRef.current = true;
+    }
+
+    hydrateAndSync();
+    return () => {
+      cancelled = true;
+    };
+  }, [status, session?.user?.role, replace]);
 
   useEffect(() => {
-    if (status !== "authenticated" || !hydratedRef.current) return;
+    if (
+      status !== "authenticated" ||
+      session?.user?.role !== "customer" ||
+      !hydratedRef.current
+    ) return;
     if (skipNextSync.current) {
       skipNextSync.current = false;
       return;
@@ -45,7 +99,7 @@ export default function CartSync() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items }),
     });
-  }, [items, status]);
+  }, [items, status, session?.user?.role]);
 
   return null;
 }
